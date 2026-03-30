@@ -1,0 +1,21 @@
+---
+import Analyzer from '../components/Analyzer.tsx';
+---
+
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Resume Score - Otimizador de ATS</title>
+	</head>
+	<body class="bg-gray-100 min-h-screen py-10">
+		<main class="container mx-auto px-4">
+			<h1 class="text-4xl font-extrabold text-center text-gray-900 mb-10">
+				Otimize seu currículo para <span class="text-blue-600">vencer o ATS</span>
+			</h1>
+			
+			{/* Componente React com hidratacão client:load */}
+			<Analyzer client:load />
+		</main>
+	</body>
+</html>
