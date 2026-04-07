@@ -5,16 +5,16 @@ from flask_cors import CORS
 import PyPDF2
 from groq import Groq
 
-# 1. CARREGAR VARIÁVEIS
-load_dotenv(override=True)
+# 1. CARREGAR VARIÁVEIS (Ordem segura para Nuvem)
+load_dotenv() 
 api_key = os.getenv("GROQ_API_KEY")
 
-# 2. TESTE DE SEGURANÇA (VER NO TERMINAL)
-print("--- TESTE DE CONEXÃO ---")
+# 2. TESTE DE SEGURANÇA (O print ajuda a debugar nos Logs do Space)
+print("--- INICIANDO SERVIDOR ---")
 if api_key:
-    print(f"Chave detectada: {api_key[:10]}...{api_key[-4:]}")
+    print(f"API Key carregada com sucesso!")
 else:
-    print("ERRO CRÍTICO: Chave GROQ_API_KEY não encontrada no .env!")
+    print("AVISO: GROQ_API_KEY não encontrada no .env ou Environment Variables!")
 print("------------------------")
 
 # 3. INICIALIZAR CLIENTE E APP (ORDEM CORRETA)

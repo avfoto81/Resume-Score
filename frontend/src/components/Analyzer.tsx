@@ -22,10 +22,14 @@ const Analyzer: React.FC = () => {
     formData.append('job_description', jobDescription);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/analyze', {
-        method: 'POST',
-        body: formData,
-      });
+      // 1. Crie uma variável com o seu novo link (sem a barra no final)
+      const API_URL = "https://andredev81-resume-score-backend.hf.space";
+
+      // 2. No seu fetch, troque o localhost por essa variável
+      const response = await fetch(`${API_URL}/analyze`, {
+      method: 'POST',
+      body: formData,
+    });
 
       if (!response.ok) throw new Error('Erro no servidor');
 
