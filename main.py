@@ -46,7 +46,7 @@ def analyze():
         return jsonify({"error": "Não foi possível extrair texto do PDF"}), 400
 
     prompt = f"""
-    Atue como um Especialista em Recrutamento Tech e Auditor de ATS.
+    Atue como um Especialista em Recrutamento Tech e Auditor de ATS, como é feito no site ats.evalzz.com.
     Analise o currículo abaixo para a vaga: {job_description}
     Currículo: {resume_text}
 
@@ -54,6 +54,7 @@ def analyze():
     {{
         "score_ats_geral": 0,
         "score_match_vaga": 0,
+
         "metricas_detalhadas": {{
             "otimizacao_palavras_chave": 0,
             "relevancia_competencias": 0,
