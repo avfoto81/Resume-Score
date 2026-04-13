@@ -46,9 +46,16 @@ def analyze():
         return jsonify({"error": "Não foi possível extrair texto do PDF"}), 400
 
     prompt = f"""
-    Atue como um Especialista em Recrutamento Tech e Auditor de ATS, como é feito no site ats.evalzz.com.
-    Analise o currículo abaixo para a vaga: {job_description}
-    Currículo: {resume_text}
+    Atue como um Especialista em Recrutamento Tech. 
+    Sua tarefa é ser justo e preciso na calibração dos scores.
+
+    CRITÉRIOS DE PONTUAÇÃO (Seja um Especialista Humano):
+    1. ANÁLISE SEMÂNTICA: Não busque apenas palavras idênticas. Se a vaga pede 'Experiência com APIs' e o candidato cita 'Axios, Fetch ou REST', considere match total.
+    2. PESO BASE: Se o candidato possui a stack principal (tecnologia chave), o score base deve ser entre 60% e 70%. 
+    3. PONTOS EXTRAS: Use os 30% restantes para diferenciais como soft skills, tempo de experiência e certificações.
+
+    Analise o currículo: {resume_text}
+    Para a vaga: {job_description}
 
     REGRAS: Retorne APENAS um JSON seguindo esta estrutura exata:
     {{
@@ -86,11 +93,12 @@ def analyze():
 
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}],
-            response_format={"type": "json_object"},
-            max_tokens=4000
-        )
+    model="llama-3.3-70b-versatile",
+    messages=[{"role": "user", "content": prompt}],
+    response_format={"type": "json_object"},
+    max_tokens=4000,
+    temperature=0.2  # <--- Adicione isso! 0.2 deixa a IA mais técnica e menos "criativa"
+)
         return completion.choices[0].message.content, 200, {'Content-Type': 'application/json'}
         
     except Exception as e:
@@ -98,4 +106,6 @@ def analyze():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    # Ele tenta pegar a porta do sistema (Hugging Face usa 7860), se não achar, usa 8000
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host='0.0.0.0', port=port, debug=True)
